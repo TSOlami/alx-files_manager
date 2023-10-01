@@ -21,9 +21,13 @@ const waitConnection = () => {
 };
 
 (async () => {
-  console.log(dbClient.isAlive());
-  await waitConnection();
-  console.log(dbClient.isAlive());
-  console.log(await dbClient.nbUsers());
-  console.log(await dbClient.nbFiles());
+  try {
+    console.log(dbClient.isAlive());
+    await waitConnection();
+    console.log(dbClient.isAlive());
+    console.log(await dbClient.nbUsers());
+    console.log(await dbClient.nbFiles());
+  } catch (error) {
+    console.error(error);
+  }
 })();
