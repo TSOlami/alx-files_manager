@@ -1,6 +1,6 @@
 import express from 'express';
 
-// Load routes from routes/index.js
+// Load all routes from routes/index.js
 import routes from './routes';
 
 const app = express();
