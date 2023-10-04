@@ -8,7 +8,8 @@ const userQueue = new Queue('email sending');
 export default class UsersController {
   static async postNew(req, res) {
     // Get email and password from the request body
-    const { email, password } = req.body;
+    const email = req.body ? req.body.email : null;
+    const password = req.body ? req.body.password : null;
 
     // Check if email and password are provided
     if (!email) {
