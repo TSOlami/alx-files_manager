@@ -2,9 +2,11 @@ import { MongoClient } from 'mongodb';
 
 class DBClient {
   constructor() {
-    const host = process.env.DB_HOST || 'localhost';
+    const host = process.env.DB_HOST || '0.0.0.0';
     const port = process.env.DB_PORT || 27017;
     this.database = process.env.DB_DATABASE || 'files_manager';
+
+    console.log(`Connecting to MongoDB at: mongodb://${host}:${port}`);
 
     const url = `mongodb://${host}:${port}`;
     this.connected = false;
@@ -12,8 +14,9 @@ class DBClient {
     this.client.connect()
       .then(() => {
         this.connected = true;
+        console.log('Connected to MongoDB');
       })
-      .catch((error) => console.error(error.message));
+      .catch((error) => console.error('MongoDB Connection Error:', error.message));
   }
 
   isAlive() {

@@ -7,9 +7,10 @@ const userQueue = new Queue('email sending');
 
 export default class UsersController {
   static async postNew(req, res) {
-    const email = req.body ? req.body.email : null;
-    const password = req.body ? req.body.password : null;
+    // Get email and password from the request body
+    const { email, password } = req.body;
 
+    // Check if email and password are provided
     if (!email) {
       res.status(400).json({ error: 'Missing email' });
       return;
@@ -18,12 +19,13 @@ export default class UsersController {
       res.status(400).json({ error: 'Missing password' });
       return;
     }
-    const user = await (await dbClient.usersCollection()).findOne({ email });
+    const userExists = await (await dbClient.usersCollection()).findOne({ email });
 
-    if (user) {
+    if (userExists) {
       res.status(400).json({ error: 'Already exist' });
       return;
     }
+
     const insertionInfo = await (await dbClient.usersCollection())
       .insertOne({ email, password: sha1(password) });
     const userId = insertionInfo.insertedId.toString();
